@@ -1,0 +1,373 @@
+Select Queries
+1.	Display all departments from department table.
+SELECT DEPARTMENT_NAME
+    -> FROM DEPARTMENTS;
+
+
+2.	Display all employees from employee table.
+ SELECT EMPLOYEE_ID
+    -> FROM EMPLOYEES;
+        (or)
+SELECT EMPLOYEE_ID, LAST_NAME, FIRST_NAME
+    -> FROM EMPLOYEES;
+
+
+3.	Select the employee in department 30.
+SELECT EMPLOYEE_ID, DEPARTMENT_ID
+    -> FROM EMPLOYEES
+    -> WHERE DEPARTMENT_ID=30;
+
+
+4.	List the names, numbers and departmentno of all clerks.
+ SELECT FIRST_NAME, LAST_NAME, PHONE_NUMBER, DEPARTMENT_ID
+    -> FROM EMPLOYEES
+    -> WHERE JOB_ID LIKE "%_CLERK";
+
+
+5.	Find the depart numbers and the name of employee of all dept with Deptno greater or equal to 20.
+SELECT DEPARTMENT_ID, LAST_NAME, FIRST_NAME
+    -> FROM EMPLOYEES
+    -> WHERE DEPARTMENT_ID>=20;
+
+
+6.	Find the employees whose commission is greater than their salary.
+
+
+
+7.	Find the employees whose commission is greater than 60 percent of their salary.
+
+
+
+8.	Find the employee whose commission is greater than 50 percent of their salary.
+
+
+9.	List the name, job and salary of all employees in dept 20 who earn more than 2000.
+ SELECT FIRST_NAME, LAST_NAME, JOB_ID, SALARY
+    -> FROM EMPLOYEES
+    -> WHERE DEPARTMENT_ID=20 AND SALARY>2000;
+
+
+10.	Find all salesmen in dept 30 whose salary is greater than or equal to Rs. 1500.
+ SELECT EMPLOYEE_ID, LAST_NAME, FIRST_NAME
+    -> FROM EMPLOYEES
+    -> WHERE JOB_ID LIKE "%_MAN" AND DEPARTMENT_ID=30 AND SALARY>=1500  ;
+
+
+11.	Find all the employees whose job is either a president or manager.
+SELECT LAST_NAME, FIRST_NAME
+    -> FROM EMPLOYEES
+    -> WHERE JOB_ID LIKE "%_PRES" OR JOB_ID LIKE "%_MGR";
+
+
+12.	Find all managers who are not in dept 30.
+SELECT LAST_NAME, FIRST_NAME
+    -> FROM EMPLOYEES
+    -> WHERE JOB_ID LIKE "%_MGR" AND DEPARTMENT_ID!=30;
+
+
+13.	Find the details of all managers and clerks in dept 10.
+ SELECT *
+    -> FROM EMPLOYEES
+    -> WHERE JOB_ID LIKE "%_MGR" OR JOB_ID LIKE "%_CLERK" AND DEPARTMENT_ID=10;
+
+
+14.	Find the details of all manager (in any dept) and all clerks in dept 10
+SELECT *
+    -> FROM EMPLOYEES
+    -> WHERE JOB_ID LIKE "%_MGR" OR (JOB_ID LIKE "%_CLERK" AND DEPARTMENT_ID=10);
+
+
+15.	Find the details of all managers in dept 10 and all clerks in dept 20.
+SELECT *
+    -> FROM EMPLOYEES
+    -> WHERE (JOB_ID LIKE '%_MGR' AND DEPARTMENT_ID=10) AND (JOB_ID LIKE '%_CLERK' AND DEPARTMENT_ID=20);
+
+
+16.	Find all employees who are neither clerks nor manager but whose salary is greater than or equal to Rs. 2000.
+ SELECT *
+    -> FROM EMPLOYEES
+    -> WHERE JOB_ID NOT LIKE '%_MGR' AND JOB_ID NOT LIKE '%_CLERK' AND SALARY>=2000;
+
+
+17.	Find the employees who earns between Rs. 1200 and Rs.1400.
+SELECT *
+    -> FROM EMPLOYEES
+    -> WHERE SALARY BETWEEN 1200 AND 1400;
+
+
+18.	Find the employees who are clerks, analysts or salesman.
+SELECT *
+    -> FROM EMPLOYEES
+    -> WHERE JOB_ID LIKE '%_CLERK' OR JOB_ID LIKE '%_ASST' OR JOB_ID LIKE '%_MAN';
+
+
+19.	Find the employees who are not clerks, analyst or salesman.
+SELECT *
+    -> FROM EMPLOYEES
+    -> WHERE JOB_ID NOT LIKE '%_CLERK' AND JOB_ID NOT LIKE '%_MAN' AND JOB_ID NOT LIKE '%_ASST';
+
+
+
+20.	Find the employees who do not receive a commission i.e. commission is NULL.
+SELECT *
+    -> FROM EMPLOYEES
+    -> WHERE COMMISSION_PCT IS NULL;
+
+
+21.	Find the employee whose commission is Rs. 0.
+SELECT *
+    -> FROM EMPLOYEES
+    -> WHERE COMMISSION_PCT=0;
+
+
+22.	Find the different jobs of the employees receiving commission.
+ SELECT DISTINCT JOB_ID
+    -> FROM EMPLOYEES
+    -> WHERE COMMISSION_PCT IS NOT NULL;
+
+
+23.	Find all employees who do not receive a commission or whose Commission is less than Rs. 100. 
+ SELECT *,COMMISSION_PCT *SALARY AS COMMISSION
+    -> FROM EMPLOYEES
+    -> WHERE (COMMISSION_PCT *SALARY) IS NULL OR (COMMISSION_PCT * SALARY)<100;
+
+
+24.	The employees who not receiving commission are entailed to Rs. 250, Show the net earnings of all employees. (find about nvl() )
+ SELECT *,IFNULL(COMMISSION_PCT,250)
+    -> FROM EMPLOYEES;
+
+
+
+25.	Find all employees whose total earnings are greater than Rs. 2000.
+SELECT *,SALARY+(COMMISSION_PCT*SALARY) AS TTL_ERNGS
+    -> FROM EMPLOYEES
+    -> WHERE SALARY+(COMMISSION_PCT*SALARY)>2000;
+
+
+26.	Find all employees whose names begin with m.
+SELECT *
+    -> FROM EMPLOYEES
+    -> WHERE FIRST_NAME LIKE 'M_%';
+
+
+27.	Find all employees whose names end with m.
+ SELECT *
+    -> FROM EMPLOYEES
+    -> WHERE FIRST_NAME LIKE '%_M';
+
+
+28.	Find all employees whose names contain the letter m.
+SELECT *
+    -> FROM EMPLOYEES
+    -> WHERE FIRST_NAME LIKE '%M%';
+
+
+29.	Find the employees whose names are 5 characters long and end with n.
+ SELECT *
+    -> FROM EMPLOYEES
+    -> WHERE FIRST_NAME LIKE '____N';
+
+
+30.	Find the employees who have the letter r as the third letter in their name.
+ SELECT *
+    -> FROM EMPLOYEES
+    -> WHERE FIRST_NAME LIKE '__r%';
+
+
+
+Numeric, Character & Date Function
+ 
+31.	Find all employees hired in month of February (of any year).
+SELECT *
+    -> FROM EMPLOYEES
+    -> WHERE HIRE_DATE LIKE '%-02-%';
+
+
+32.	Find all employees who were hired on the last day of the month. 
+SELECT *
+    -> FROM EMPLOYEES
+    -> WHERE HIRE_DATE LIKE LAST_DAY(HIRE_DATE);
+
+
+33.	Find the employees who were hired more than 12 years ago.
+SELECT *
+    -> FROM EMPLOYEES
+    -> WHERE (datediff(CURDATE(),HIRE_DATE)/365.35)>12;
+
+
+34.	Find the managers hired in the year 2007.
+ SELECT *
+    -> FROM EMPLOYEES
+    -> WHERE HIRE_DATE LIKE '2007-%-%';
+
+
+35.	Display the names and the jobs of all employees, separated by ','(comma). For example (smith, clerk).
+SELECT CONCAT(FIRST_NAME,CONCAT(',',JOB_ID)) NAME_JOB
+    -> FROM EMPLOYEES;
+
+
+36.	Display the names of all employees with the initial letter only in capitals.
+SELECT CONCAT(UCASE(LEFT(FIRST_NAME,1)),SUBSTRING(FIRST_NAME,2)) AS CHANGED
+    -> FROM EMPLOYEES;
+
+
+37.	Display the names of all employees, right aligning them to 15 characters.
+SELECT LPAD(FIRST_NAME,15,' -')
+    -> FROM EMPLOYEES;
+
+
+38.	Display the names of all employees, padding them to right up-to 15 characters with '-'.
+SELECT RPAD(FIRST_NAME,15,'-')
+    -> FROM EMPLOYEES;
+
+
+39.	Display the length of the name of all employees.
+SELECT LAST_NAME,LENGTH(LAST_NAME),FIRST_NAME,LENGTH(FIRST_NAME)
+    -> FROM EMPLOYEES;
+SELECT LAST_NAME,LENGTH(LAST_NAME),FIRST_NAME,LENGTH(FIRST_NAME),LENGTH(LAST_NAME)+LENGTH(FIRST_NAME)
+    -> FROM EMPLOYEES;
+
+
+
+40.	Display the names of all employees centering them with 20 characters.
+SELECT RPAD(LPAD(FIRST_NAME,10,'* '),20,'* ')
+    -> FROM EMPLOYEES;
+
+
+
+41.	Display the names of all employees without any leading 'a'.
+ SELECT TRIM(LEADING 'A' FROM FIRST_NAME) LTRIM_OF_A
+    -> FROM EMPLOYEES;
+
+
+42.	Display the names of all employees without any trailing 'r'.
+SELECT TRIM(TRAILING 'r' FROM FIRST_NAME) RTRIM_OF_R
+    -> FROM EMPLOYEES;
+
+
+43.	Show the first three characters of the names of all employees.
+SELECT SUBSTRING(FIRST_NAME,1,3)
+    -> FROM EMPLOYEES;
+ SELECT LEFT(FIRST_NAME,3)
+    -> FROM EMPLOYEES;
+
+
+44.	Show the last three characters of the names of all employees.
+SELECT RIGHT(FIRST_NAME,3) last_3chars
+    -> FROM EMPLOYEES;
+
+
+45.	Display the names of all employees replacing any 'a' with 'e'.
+SELECT REPLACE(FIRST_NAME,'a','e') replacing
+    -> FROM EMPLOYEES;
+
+
+
+46.	Display the names of all employees and the position at which the string 'ar' occurs in the name.
+SELECT FIRST_NAME,POSITION('ar' IN FIRST_NAME) POSITION
+    -> FROM EMPLOYEES
+    -> WHERE FIRST_NAME LIKE '%ar%';
+ SELECT FIRST_NAME,POSITION('ar' IN FIRST_NAME) POSITION
+    -> FROM EMPLOYEES;
+
+
+
+47.	Show the salary of all employees rounding it to the nearest Rs. 1000. For example (3790 will be 4000)
+SELECT SALARY - MOD(SALARY, 1000) ROUNDING_VALUES
+    -> FROM EMPLOYEES;
+
+
+
+48.	Show the daily salary of all employees assuming a month has 30 days.
+ SELECT FIRST_NAME, SALARY/30 DAILY_SALARY
+    -> FROM EMPLOYEES;
+
+
+
+49.	Display the name of all employees, and their bonus. Assume each Employee gets a bonus of 20 percent of his salary subject to the Maximum of Rs. 500.
+ SELECT FIRST_NAME,IF((SALARY*.2)>500,500,SALARY*.2) MAX500
+    -> FROM EMPLOYEES;
+
+
+
+50.	Display the name of all employees, and their bonus. Assume each employee gets a bonus of 20 percent of his salary subject to the Maximum of Rs. 200.
+SELECT FIRST_NAME,IF((SALARY*.2)>200,200,200) MAX200
+    -> FROM EMPLOYEES;
+
+
+
+51.	For each employee display the number of days passed since the employee joined the company.
+SELECT FIRST_NAME,datediff(CURDATE(),HIRE_DATE) NO_OF_DAYS
+    -> FROM EMPLOYEES;
+
+
+52.	For each employee display the number of months passed since the Employee joined the company.
+SELECT TIMESTAMPDIFF(MONTH,HIRE_DATE,CURRENT_DATE) NO_OF_MONTHS
+    -> FROM EMPLOYEES;
+
+
+53.	Display the tenure of service in the years, months and days for all Employees in character format. Assume every month has 30 days.
+
+
+
+54.	Display the employee details in the following manner. 'Miler joined on the twenty-third of January of the year nineteen hundred and eighty Two'.
+
+
+
+Ordering by Queries
+
+55.	Display the details of all employees, sorted on the names.
+SELECT *
+    -> FROM EMPLOYEES
+    -> ORDER BY FIRST_NAME;
+
+56.	Display the name of all employees, based on their tenure, with the oldest employee coming first.
+SELECT FIRST_NAME,HIRE_DATE
+    -> FROM EMPLOYEES
+    -> ORDER BY HIRE_DATE;
+
+
+
+57.	Display the names, job and salary of all employees sorted on jobs and Salary.
+ SELECT FIRST_NAME,JOB_ID,SALARY
+    -> FROM EMPLOYEES
+    -> ORDER BY JOB_ID DESC,SALARY DESC;
+
+
+
+58.	Display the names, job and salary of all employees, sorted on jobs and within job, sorted on the descending order of salary.
+SELECT FIRST_NAME,JOB_ID,SALARY
+    -> FROM EMPLOYEES
+    -> ORDER BY JOB_ID ,SALARY DESC;
+
+
+
+59.	Display the names, job and salary of all employees, sorted on Descending order of job and within job, sorted on the descending order of salary.
+SELECT FIRST_NAME,JOB_ID,SALARY
+    -> FROM EMPLOYEES
+    -> ORDER BY JOB_ID DESC,SALARY DESC;
+
+
+
+60.	 Display the name, month and year of all employees, sorted on the month of their hire date irrespective of the year.
+SELECT FIRST_NAME,MONTH(HIRE_DATE),YEAR(HIRE_DATE)
+    -> FROM EMPLOYEES
+    -> ORDER BY MONTH(HIRE_DATE);
+
+
+
+61.	Display the name, month and year of joining of all employees, sorted on the month of their hire date, and within that on the year, with the earliest year appearing first.
+SELECT FIRST_NAME,MONTH(HIRE_DATE),YEAR(HIRE_DATE)
+    -> FROM EMPLOYEES
+    -> ORDER BY MONTH(HIRE_DATE),YEAR(HIRE_DATE);
+
+
+
+
+
+
+
+
+
+
+
